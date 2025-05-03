@@ -25,15 +25,10 @@
       }
 
       preload() {
-        // 이미지 로드하고, 로드 완료 후 이벤트를 처리
+        // 이미지 로드
         this.load.image('start_bg', 'assets/start_bg.png');
         this.load.image('start_button', 'assets/start_start.png');
         this.load.image('license', 'assets/license.png');
-        
-        // 이미지 로드 완료 콜백
-        this.load.on('filecomplete', (key, type, file) => {
-          console.log(`${key} image loaded successfully.`);
-        });
       }
 
       create() {
@@ -59,7 +54,10 @@
                 alpha: 0, // 완전히 투명하게
                 duration: 1000,
                 onComplete: () => {
-                  // license 페이드 아웃 후 게임 시작 화면
+                  // license 페이드 아웃 후 이미지 삭제
+                  licenseImage.destroy(); // 이미지 삭제
+
+                  // 게임 시작 화면
                   this.showGameStartScreen();
                 }
               });
@@ -76,9 +74,6 @@
         const startBg = this.add.image(width / 2, height / 2, 'start_bg')
           .setOrigin(0.5)
           .setAlpha(0); // 처음에는 보이지 않도록
-
-        // 배경 이미지가 제대로 로드되었는지 콘솔로 확인
-        console.log('Start background image:', startBg);
 
         // 배경 크기 화면에 맞게 설정 (setScale로 크기 비율 맞추기)
         startBg.setScale(width / startBg.width, height / startBg.height);

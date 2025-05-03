@@ -45,7 +45,7 @@
           alpha: 1, // 완전히 보이도록 설정
           duration: 1000, // 1초 동안 페이드 인
           onComplete: () => {
-            // 3초 동안 유지
+            // 페이드 인이 끝나면 2초 동안 유지
             this.time.delayedCall(2000, () => {
               // license 이미지 페이드 아웃 (1초 동안)
               this.tweens.add({
@@ -53,7 +53,7 @@
                 alpha: 0, // 완전히 투명하게
                 duration: 1000,
                 onComplete: () => {
-                  // 게임 시작 화면 페이드 인
+                  // license 페이드 아웃 후 게임 시작 화면
                   this.add.image(width / 2, height / 2, 'start_bg')
                     .setOrigin(0.5)
                     .setAlpha(0) // 처음에는 보이지 않도록
@@ -68,47 +68,4 @@
                   this.tweens.add({
                     targets: [startButton, 'start_bg'],
                     alpha: 1, // 완전히 보이도록 설정
-                    duration: 1000
-                  });
-
-                  // 버튼 클릭 시 게임 씬으로 전환
-                  startButton.on('pointerdown', () => {
-                    this.scene.start('MainScene');
-                  });
-                }
-              });
-            });
-          }
-        });
-      }
-    }
-
-    // 더미 MainScene
-    class MainScene extends Phaser.Scene {
-      constructor() {
-        super('MainScene');
-      }
-
-      create() {
-        this.add.text(50, 50, 'Main Scene', {
-          fontSize: '24px',
-          color: '#ffffff'
-        });
-      }
-    }
-
-    const config = {
-      type: Phaser.AUTO,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      scene: [StartScene, MainScene],
-      scale: {
-        mode: Phaser.Scale.RESIZE,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-      }
-    };
-
-    const game = new Phaser.Game(config);
-  </script>
-</body>
-</html>
+                    d

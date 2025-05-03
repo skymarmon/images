@@ -83,3 +83,5 @@ class StartScene extends Phaser.Scene {
     });
   }
 }
+
+window.StartScene = StartScene;

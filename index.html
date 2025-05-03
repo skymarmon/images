@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그라이크 덱빌딩 게임</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #000;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+  <script>
+    class StartScene extends Phaser.Scene {
+      constructor() {
+        super('StartScene');
+      }
+
+      preload() {
+        this.load.image('start_bg', 'assets/start_bg.png');
+        this.load.image('start_button', 'assets/start_start.png');
+      }
+
+      create() {
+        const width = this.scale.width;
+        const height = this.scale.height;
+
+        // 배경 화면 전체에 맞게
+        const bg = this.add.image(0, 0, 'start_bg').setOrigin(0, 0);
+        bg.setDisplaySize(width, height);
+
+        // 시작 버튼
+        const startButton = this.add.image(width / 2, height * 0.75, 'start_button')
+          .setOrigin(0.5)
+          .setInteractive({ useHandCursor: true });
+
+        // 버튼 크기 자동 조절 (너비 40% 기준)
+        const buttonTargetWidth = width * 0.4;
+        const scaleRatio = buttonTargetWidth / startButton.width;
+        startButton.setScale(scaleRatio);
+
+        // 클릭/터치 이벤트
+        startButton.on('pointerdown', () => {
+          this.scene.start('MainScene');
+        });
+      }
+    }
+
+    class MainScene extends Phaser.Scene {
+      constructor() {
+        super('MainScene');
+      }
+
+      create() {
+        this.add.text(50, 50, 'Main Scene', {
+          fontSize: '24px',
+          color: '#ffffff'
+        });
+      }
+    }
+
+    const config = {
+      type: Phaser.AUTO,
+      width: window.innerWidth,
+      height: window.innerHeight,
+      scene: [StartScene, MainScene],
+      scale: {
+        mode: Phaser.Scale.RESIZE,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+      }
+    };
+
+    const game = new Phaser.Game(config);
+  </script>
+</body>
+</html>

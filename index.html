@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>로그라이크 덱빌딩 게임</title>
   <style>
     html, body {
@@ -34,7 +34,6 @@
         const width = this.scale.width;
         const height = this.scale.height;
 
-        // license 이미지 (페이드 인/아웃 효과)
         const licenseImage = this.add.image(width / 2, height / 2, 'license')
           .setOrigin(0.5)
           .setAlpha(0);
@@ -68,12 +67,12 @@
           .setAlpha(0);
         startBg.setScale(width / startBg.width, height / startBg.height);
 
-        // 메인 타이틀 이미지 - 위쪽에 배치
+        // 위쪽에 즉시 보이는 이미지
         const titleImage = this.add.image(width / 2, height * 0.15, 'start_button')
           .setOrigin(0.5)
-          .setAlpha(0);
+          .setAlpha(1);
 
-        // 시작 버튼 - 아래쪽
+        // 하단 시작 버튼
         const startButton = this.add.image(width / 2, height * 0.75, 'start_button')
           .setOrigin(0.5)
           .setInteractive({ useHandCursor: true })
@@ -81,11 +80,12 @@
 
         // 페이드 인
         this.tweens.add({
-          targets: [startBg, titleImage, startButton],
+          targets: [startBg, startButton],
           alpha: 1,
           duration: 1000
         });
 
+        // 클릭 or 터치 처리
         startButton.on('pointerdown', () => {
           this.scene.start('MainScene');
         });
@@ -113,6 +113,9 @@
       scale: {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH
+      },
+      input: {
+        activePointers: 3 // 터치 대응
       }
     };
 

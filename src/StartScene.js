@@ -14,6 +14,8 @@ class StartScene extends Phaser.Scene {
     this.load.image('choose_class_wizard_selected', 'assets/choose_class_wizard_selected.png');
     this.load.image('choose_class_back', 'assets/choose_class_back.png');
     this.load.image('choose_class_selected', 'assets/choose_class_selected.png');
+    this.load.image('choose_class_astronomer', 'assets/choose_class_astronomer.png');
+    this.load.image('choose_class_astronomer_selected', 'assets/choose_class_astronomer_selected.png');
   }
 
   create() {

@@ -11,11 +11,10 @@ class ChooseClass extends Phaser.Scene {
       .setOrigin(0.5);
     bg.setScale(width / bg.width, height / bg.height);
 
-    // 기본 이미지 텍스처
+    // 기본 이미지 키
     let wizardImageKey = 'choose_class_wizard';
     let astronomerImageKey = 'choose_class_astronomer';
 
-    // 캐릭터 이미지 추가
     const wizard = this.add.image(width / 2 - 150, height / 2, wizardImageKey)
       .setOrigin(0.5)
       .setInteractive({ useHandCursor: true });
@@ -27,17 +26,18 @@ class ChooseClass extends Phaser.Scene {
     // 선택 상태 저장
     let selectedCharacter = null;
 
-    // 클릭 시 텍스처 전환
     wizard.on('pointerdown', () => {
       wizard.setTexture('choose_class_wizard_selected');
       astronomer.setTexture('choose_class_astronomer');
       selectedCharacter = 'wizard';
+      window.selectedClass = 'wizard'; // ✅ 전역 변수 저장
     });
 
     astronomer.on('pointerdown', () => {
       astronomer.setTexture('choose_class_astronomer_selected');
       wizard.setTexture('choose_class_wizard');
       selectedCharacter = 'astronomer';
+      window.selectedClass = 'astronomer'; // ✅ 전역 변수 저장
     });
 
     // 뒤로가기 버튼
@@ -46,6 +46,8 @@ class ChooseClass extends Phaser.Scene {
       .setInteractive({ useHandCursor: true });
 
     backButton.on('pointerdown', () => {
+      const startScene = this.scene.get('StartScene');
+      if (startScene) startScene.fromChooseClass = true;
       this.scene.start('StartScene');
     });
 
@@ -58,11 +60,10 @@ class ChooseClass extends Phaser.Scene {
       if (selectedCharacter) {
         this.scene.start('ChooseLocation');
       } else {
-        // 선택되지 않았을 경우 효과 추가도 가능
         this.cameras.main.shake(200, 0.01);
       }
     });
   }
 }
 
-window.ChooseScene = ChooseScene;
+window.ChooseClass = ChooseClass;

@@ -64,3 +64,5 @@ class ChooseClass extends Phaser.Scene {
     });
   }
 }
+
+window.ChooseScene = ChooseScene;

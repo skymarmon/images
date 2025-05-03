@@ -18,9 +18,11 @@
 </head>
 <body>
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
-  <script src="scenes/StartScene.js"></script>
-  <script src="scenes/ChooseClass.js"></script>
-  <script src="scenes/ChooseLocation.js"></script>
+
+  <script src="src/StartScene.js"></script>
+  <script src="src/ChooseClass.js"></script>
+  <script src="src/ChooseLocation.js"></script>
+
   <script>
     const config = {
       type: Phaser.AUTO,
@@ -35,6 +37,7 @@
         activePointers: 3
       }
     };
+
     new Phaser.Game(config);
   </script>
 </body>

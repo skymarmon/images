@@ -25,7 +25,6 @@
       }
 
       preload() {
-        // 이미지 로드
         this.load.image('start_bg', 'assets/start_bg.png');
         this.load.image('start_button', 'assets/start_start.png');
         this.load.image('license', 'assets/license.png');
@@ -38,26 +37,20 @@
         // license 이미지 (페이드 인/아웃 효과)
         const licenseImage = this.add.image(width / 2, height / 2, 'license')
           .setOrigin(0.5)
-          .setAlpha(0); // 초기 투명도 0 (보이지 않게 설정)
+          .setAlpha(0);
 
-        // license 이미지 페이드 인 (1초 동안)
         this.tweens.add({
           targets: licenseImage,
-          alpha: 1, // 완전히 보이도록 설정
-          duration: 1000, // 1초 동안 페이드 인
+          alpha: 1,
+          duration: 1000,
           onComplete: () => {
-            // 페이드 인이 끝나면 2초 동안 유지
             this.time.delayedCall(2000, () => {
-              // license 이미지 페이드 아웃 (1초 동안)
               this.tweens.add({
                 targets: licenseImage,
-                alpha: 0, // 완전히 투명하게
+                alpha: 0,
                 duration: 1000,
                 onComplete: () => {
-                  // license 페이드 아웃 후 이미지 삭제
-                  licenseImage.destroy(); // 이미지 삭제
-
-                  // 게임 시작 화면
+                  licenseImage.destroy();
                   this.showGameStartScreen();
                 }
               });
@@ -70,34 +63,35 @@
         const width = this.scale.width;
         const height = this.scale.height;
 
-        // 게임 시작 화면 배경 (페이드 인)
         const startBg = this.add.image(width / 2, height / 2, 'start_bg')
           .setOrigin(0.5)
-          .setAlpha(0); // 처음에는 보이지 않도록
-
-        // 배경 크기 화면에 맞게 설정 (setScale로 크기 비율 맞추기)
+          .setAlpha(0);
         startBg.setScale(width / startBg.width, height / startBg.height);
 
+        // 메인 타이틀 이미지 - 위쪽에 배치
+        const titleImage = this.add.image(width / 2, height * 0.15, 'start_button')
+          .setOrigin(0.5)
+          .setAlpha(0);
+
+        // 시작 버튼 - 아래쪽
         const startButton = this.add.image(width / 2, height * 0.75, 'start_button')
           .setOrigin(0.5)
           .setInteractive({ useHandCursor: true })
-          .setAlpha(0); // 버튼도 보이지 않게 설정
+          .setAlpha(0);
 
-        // 배경과 버튼 페이드 인 (1초 동안)
+        // 페이드 인
         this.tweens.add({
-          targets: startBg,
-          alpha: 1, // 완전히 보이도록 설정
+          targets: [startBg, titleImage, startButton],
+          alpha: 1,
           duration: 1000
         });
 
-        // 버튼 클릭 시 게임 씬으로 전환
         startButton.on('pointerdown', () => {
           this.scene.start('MainScene');
         });
       }
     }
 
-    // 더미 MainScene
     class MainScene extends Phaser.Scene {
       constructor() {
         super('MainScene');

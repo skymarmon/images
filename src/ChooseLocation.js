@@ -10,3 +10,5 @@ class ChooseLocation extends Phaser.Scene {
     });
   }
 }
+
+window.ChooseLocation = ChooseLocation;

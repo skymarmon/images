@@ -68,4 +68,47 @@
                   this.tweens.add({
                     targets: [startButton, 'start_bg'],
                     alpha: 1, // 완전히 보이도록 설정
-                    d
+                    duration: 1000
+                  });
+
+                  // 버튼 클릭 시 게임 씬으로 전환
+                  startButton.on('pointerdown', () => {
+                    this.scene.start('MainScene');
+                  });
+                }
+              });
+            });
+          }
+        });
+      }
+    }
+
+    // 더미 MainScene
+    class MainScene extends Phaser.Scene {
+      constructor() {
+        super('MainScene');
+      }
+
+      create() {
+        this.add.text(50, 50, 'Main Scene', {
+          fontSize: '24px',
+          color: '#ffffff'
+        });
+      }
+    }
+
+    const config = {
+      type: Phaser.AUTO,
+      width: window.innerWidth,
+      height: window.innerHeight,
+      scene: [StartScene, MainScene],
+      scale: {
+        mode: Phaser.Scale.RESIZE,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+      }
+    };
+
+    const game = new Phaser.Game(config);
+  </script>
+</body>
+</html>

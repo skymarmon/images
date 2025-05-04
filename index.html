@@ -42,14 +42,14 @@
   <script type="module">
     import { StartScene } from './src/StartScene.js';
     import { ChooseClass } from './src/ChooseClass.js';
-    import { ChooseLocation } from './src/ChooseLocation.js';
+    import { ChooseCharacter } from './src/ChooseCharacter.js';
 
     const config = {
       type: Phaser.AUTO,
       width: window.innerWidth,
       height: window.innerHeight,
       backgroundColor: '#000000',
-      scene: [StartScene, ChooseClass, ChooseLocation],
+      scene: [StartScene, ChooseClass, ChooseCharacter],
       scale: {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,

@@ -1,14 +1,14 @@
-class ChooseLocation extends Phaser.Scene {
+export class ChooseLocation extends Phaser.Scene {
   constructor() {
     super('ChooseLocation');
   }
 
   create() {
-    this.add.text(50, 50, 'Choose Location Scene', {
-      fontSize: '24px',
+    const { width, height } = this.scale;
+
+    this.add.text(width / 2, height / 2, `선택된 클래스: ${window.selectedClass}`, {
+      fontSize: '32px',
       color: '#ffffff'
-    });
+    }).setOrigin(0.5);
   }
 }
-
-window.ChooseLocation = ChooseLocation;

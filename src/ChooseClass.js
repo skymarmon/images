@@ -3,58 +3,49 @@ export class ChooseClass extends Phaser.Scene {
     super('ChooseClass');
   }
 
+  preload() {
+    // 이미지 로드
+    this.load.image('start_bg', 'assets/start_bg.png');
+    this.load.image('start_start', 'assets/start_start.png');
+    this.load.image('choose_class_wizard', 'assets/choose_class_wizard.png');
+    this.load.image('choose_class_astronomer', 'assets/choose_class_astronomer.png');
+    this.load.image('choose_class_shadow', 'assets/choose_class_shadow.png');
+  }
+
   create() {
-    const width = this.scale.width;
-    const height = this.scale.height;
+    const centerX = this.cameras.main.centerX;
+    const centerY = this.cameras.main.centerY;
 
-    const bg = this.add.image(width / 2, height / 2, 'choose_class_bg')
-      .setOrigin(0.5)
-      .setScale(width / 800, height / 600); // 크기 조절
+    // 배경 추가
+    this.add.image(centerX, centerY, 'start_bg');
 
-    let selectedCharacter = null;
-
-    const wizard = this.add.image(width / 2 - 150, height / 2, 'choose_class_wizard')
-      .setOrigin(0.5)
-      .setInteractive({ useHandCursor: true });
-
-    const astronomer = this.add.image(width / 2 + 150, height / 2, 'choose_class_astronomer')
-      .setOrigin(0.5)
-      .setInteractive({ useHandCursor: true });
-
-    wizard.on('pointerdown', () => {
-      wizard.setTexture('choose_class_wizard_selected');
-      astronomer.setTexture('choose_class_astronomer');
-      selectedCharacter = 'wizard';
-      window.selectedClass = 'wizard';
+    // "게임 시작" 버튼
+    const startButton = this.add.image(centerX, centerY + 150, 'start_start').setInteractive();
+    startButton.on('pointerup', () => {
+      // ChooseCharacter 씬으로 넘어감
+      this.scene.start('ChooseCharacter');
     });
 
-    astronomer.on('pointerdown', () => {
-      astronomer.setTexture('choose_class_astronomer_selected');
-      wizard.setTexture('choose_class_wizard');
-      selectedCharacter = 'astronomer';
-      window.selectedClass = 'astronomer';
+    // 캐릭터 선택 (기본 캐릭터: wizard)
+    this.add.image(centerX - 150, centerY, 'choose_class_wizard');
+    const wizardShadow = this.add.image(centerX - 150, centerY + 50, 'choose_class_shadow');
+    wizardShadow.setTexture('choose_class_shadow'); // 기본으로 shadow 표시
+
+    this.add.image(centerX + 150, centerY, 'choose_class_astronomer');
+    const astronomerShadow = this.add.image(centerX + 150, centerY + 50, 'choose_class_shadow');
+    astronomerShadow.setTexture('choose_class_shadow'); // 기본으로 shadow 표시
+
+    // 클릭하면 선택된 캐릭터 그림자 변경
+    const wizard = this.add.image(centerX - 150, centerY, 'choose_class_wizard').setInteractive();
+    wizard.on('pointerup', () => {
+      wizardShadow.setTexture('choose_class_select');
+      astronomerShadow.setTexture('choose_class_shadow');
     });
 
-    const backButton = this.add.image(width - 50, 50, 'choose_class_back')
-      .setOrigin(0.5)
-      .setInteractive({ useHandCursor: true });
-
-    backButton.on('pointerdown', () => {
-      const startScene = this.scene.get('StartScene');
-      if (startScene) startScene.fromChooseClass = true;
-      this.scene.start('StartScene');
-    });
-
-    const selectButton = this.add.image(width / 2, height * 0.85, 'choose_class_selected')
-      .setOrigin(0.5)
-      .setInteractive({ useHandCursor: true });
-
-    selectButton.on('pointerdown', () => {
-      if (selectedCharacter) {
-        this.scene.start('ChooseLocation');
-      } else {
-        this.cameras.main.shake(200, 0.01);
-      }
+    const astronomer = this.add.image(centerX + 150, centerY, 'choose_class_astronomer').setInteractive();
+    astronomer.on('pointerup', () => {
+      wizardShadow.setTexture('choose_class_shadow');
+      astronomerShadow.setTexture('choose_class_select');
     });
   }
 }

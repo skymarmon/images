@@ -27,7 +27,15 @@
 
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
   <script>
+    // 글로벌 변수
     window.selectedClass = null;
+
+    // Phaser의 기본 텍스트 생성기 오버라이드 - 제주한라산 자동 적용
+    Phaser.GameObjects.GameObjectFactory.prototype._originalText = Phaser.GameObjects.GameObjectFactory.prototype.text;
+    Phaser.GameObjects.GameObjectFactory.prototype.text = function (x, y, text, style = {}) {
+      style.fontFamily = style.fontFamily || 'JejuHallasan';
+      return this._originalText.call(this, x, y, text, style);
+    };
   </script>
 </head>
 <body>

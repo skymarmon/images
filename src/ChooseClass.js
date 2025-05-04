@@ -1,4 +1,4 @@
-class ChooseClass extends Phaser.Scene {
+export class ChooseClass extends Phaser.Scene {
   constructor() {
     super('ChooseClass');
   }

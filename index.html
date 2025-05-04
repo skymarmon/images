@@ -1,62 +1,38 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Roguelike Deckbuilder</title>
-
-  <!-- 제주한라산 글꼴 -->
-  <link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207@1.0/JejuHallasan.woff" rel="stylesheet" />
-  <style>
-    @font-face {
-      font-family: 'JejuHallasan';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207@1.0/JejuHallasan.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-    }
-    body {
-      margin: 0;
-      font-family: 'JejuHallasan', cursive;
-      overflow: hidden;
-      background: #000;
-    }
-    canvas {
-      display: block;
-    }
-  </style>
-
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
-  <script>
-    // 글로벌 변수
-    window.selectedClass = null;
-
-    // Phaser의 기본 텍스트 생성기 오버라이드 - 제주한라산 자동 적용
-    Phaser.GameObjects.GameObjectFactory.prototype._originalText = Phaser.GameObjects.GameObjectFactory.prototype.text;
-    Phaser.GameObjects.GameObjectFactory.prototype.text = function (x, y, text, style = {}) {
-      style.fontFamily = style.fontFamily || 'JejuHallasan';
-      return this._originalText.call(this, x, y, text, style);
-    };
-  </script>
+    <meta charset="utf-8">
+    <title>My Phaser Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+    <style>
+        body { margin: 0; background-color: black; }
+        canvas { display: block; margin: auto; }
+    </style>
 </head>
 <body>
-  <script type="module">
-    import { StartScene } from './src/StartScene.js';
-    import { ChooseClass } from './src/ChooseClass.js';
-    import { ChooseCharacter } from './src/ChooseCharacter.js';
+    <div id="game-container"></div>
 
-    const config = {
-      type: Phaser.AUTO,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      backgroundColor: '#000000',
-      scene: [StartScene, ChooseClass, ChooseCharacter],
-      scale: {
-        mode: Phaser.Scale.RESIZE,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-      }
-    };
+    <script src="src/StartScene.js"></script>
+    <script src="src/ChooseClass.js"></script>
+    <script>
+        const config = {
+            type: Phaser.AUTO,
+            width: 800,        // 게임 너비
+            height: 600,       // 게임 높이
+            parent: 'game-container',
+            // 게임에서 사용할 Scene 목록 정의
+            // 첫 번째 Scene인 StartScene부터 시작됩니다.
+            scene: [StartScene, ChooseClass /*, GameScene 등 추가 */ ],
+            // Phaser 레지스트리 플러그인 활성화 (전역 데이터 저장용)
+            // 보통 기본 활성화되어 있지만 명시적으로 포함하는 것이 좋습니다.
+            plugins: {
+                global: [
+                    { key: 'registry', plugin: Phaser.Data.DataManager, start: true }
+                ]
+            }
+        };
 
-    new Phaser.Game(config);
-  </script>
+        const game = new Phaser.Game(config);
+    </script>
 </body>
 </html>

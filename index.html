@@ -1,54 +1,53 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207@1.0/JejuHallasan.woff" rel="stylesheet" />
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>로그라이크 덱빌딩 게임</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Roguelike Deckbuilder</title>
+
+  <!-- 제주한라산 글꼴 -->
+  <link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207@1.0/JejuHallasan.woff" rel="stylesheet" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: #000;
-    }
-    canvas {
-      display: block;
-    }
     @font-face {
       font-family: 'JejuHallasan';
       src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207@1.0/JejuHallasan.woff') format('woff');
       font-weight: normal;
       font-style: normal;
     }
-  
     body {
+      margin: 0;
       font-family: 'JejuHallasan', cursive;
+      overflow: hidden;
+      background: #000;
+    }
+    canvas {
+      display: block;
     }
   </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+  <script>
+    window.selectedClass = null;
+  </script>
 </head>
 <body>
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+  <script type="module">
+    import { StartScene } from './src/StartScene.js';
+    import { ChooseClass } from './src/ChooseClass.js';
+    import { ChooseLocation } from './src/ChooseLocation.js';
 
-  <script src="src/StartScene.js"></script>
-  <script src="src/ChooseClass.js"></script>
-  <script src="src/ChooseLocation.js"></script>
-
-  <script>
     const config = {
       type: Phaser.AUTO,
       width: window.innerWidth,
       height: window.innerHeight,
+      backgroundColor: '#000000',
       scene: [StartScene, ChooseClass, ChooseLocation],
       scale: {
         mode: Phaser.Scale.RESIZE,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-      },
-      input: {
-        activePointers: 3
+        autoCenter: Phaser.Scale.CENTER_BOTH,
       }
     };
-    window.selectedClass = null;
+
     new Phaser.Game(config);
   </script>
 </body>

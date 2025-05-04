@@ -3,66 +3,58 @@ export class ChooseClass extends Phaser.Scene {
     super('ChooseClass');
   }
 
-  preload() {
-    this.load.image('choose_class_bg', 'assets/choose_class_bg.png');
-    this.load.image('choose_class_wizard', 'assets/choose_class_wizard.png');
-    this.load.image('choose_class_wizard_selected', 'assets/choose_class_wizard_selected.png');
-    this.load.image('choose_class_astronomer', 'assets/choose_class_astronomer.png');
-    this.load.image('choose_class_astronomer_selected', 'assets/choose_class_astronomer_selected.png');
-    this.load.image('choose_class_back', 'assets/choose_class_back.png');
-    this.load.image('choose_class_selected', 'assets/choose_class_selected.png');
-  }
-
   create() {
-    const centerX = this.cameras.main.centerX;
-    const centerY = this.cameras.main.centerY;
+    const width = this.scale.width;
+    const height = this.scale.height;
 
-    // 배경
-    this.add.image(centerX, centerY, 'choose_class_bg').setOrigin(0.5);
+    const bg = this.add.image(width / 2, height / 2, 'choose_class_bg')
+      .setOrigin(0.5)
+      .setScale(width / 800, height / 600); // 크기 조절
 
-    // 클래스 선택 상태
-    this.selectedClass = null;
+    let selectedCharacter = null;
 
-    // 위자드 이미지
-    this.wizard = this.add.image(centerX - 150, centerY, 'choose_class_wizard').setOrigin(0.5).setInteractive();
-    this.wizard.on('pointerup', () => {
-      this.selectClass('wizard');
+    const wizard = this.add.image(width / 2 - 150, height / 2, 'choose_class_wizard')
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true });
+
+    const astronomer = this.add.image(width / 2 + 150, height / 2, 'choose_class_astronomer')
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true });
+
+    wizard.on('pointerdown', () => {
+      wizard.setTexture('choose_class_wizard_selected');
+      astronomer.setTexture('choose_class_astronomer');
+      selectedCharacter = 'wizard';
+      window.selectedClass = 'wizard';
     });
 
-    // 천문학자 이미지
-    this.astronomer = this.add.image(centerX + 150, centerY, 'choose_class_astronomer').setOrigin(0.5).setInteractive();
-    this.astronomer.on('pointerup', () => {
-      this.selectClass('astronomer');
+    astronomer.on('pointerdown', () => {
+      astronomer.setTexture('choose_class_astronomer_selected');
+      wizard.setTexture('choose_class_wizard');
+      selectedCharacter = 'astronomer';
+      window.selectedClass = 'astronomer';
     });
 
-    // 뒤로가기 버튼 (우상단)
-    this.backButton = this.add.image(this.cameras.main.width - 50, 50, 'choose_class_back')
-      .setOrigin(0.5).setInteractive();
-    this.backButton.on('pointerup', () => {
-      this.scene.start('StartScene'); // 라이선스 없이 바로 StartScene
+    const backButton = this.add.image(width - 50, 50, 'choose_class_back')
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true });
+
+    backButton.on('pointerdown', () => {
+      const startScene = this.scene.get('StartScene');
+      if (startScene) startScene.fromChooseClass = true;
+      this.scene.start('StartScene');
     });
 
-    // 선택 완료 버튼 (중앙 하단)
-    this.confirmButton = this.add.image(centerX, this.cameras.main.height - 80, 'choose_class_selected')
-      .setOrigin(0.5).setInteractive();
-    this.confirmButton.on('pointerup', () => {
-      if (this.selectedClass) {
-        window.selectedClass = this.selectedClass; // 전역 변수로 저장
+    const selectButton = this.add.image(width / 2, height * 0.85, 'choose_class_selected')
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true });
+
+    selectButton.on('pointerdown', () => {
+      if (selectedCharacter) {
         this.scene.start('ChooseLocation');
+      } else {
+        this.cameras.main.shake(200, 0.01);
       }
     });
-  }
-
-  selectClass(className) {
-    this.selectedClass = className;
-
-    // 이미지 교체
-    if (className === 'wizard') {
-      this.wizard.setTexture('choose_class_wizard_selected');
-      this.astronomer.setTexture('choose_class_astronomer');
-    } else if (className === 'astronomer') {
-      this.wizard.setTexture('choose_class_wizard');
-      this.astronomer.setTexture('choose_class_astronomer_selected');
-    }
   }
 }

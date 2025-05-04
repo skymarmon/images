@@ -1,4 +1,4 @@
-class ChooseLocation extends Phaser.Scene {
+export class ChooseLocation extends Phaser.Scene {
   constructor() {
     super('ChooseLocation');
   }

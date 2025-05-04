@@ -5,8 +5,26 @@
     <title>My Phaser Game</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
     <style>
-        body { margin: 0; background-color: black; }
-        canvas { display: block; margin: auto; }
+        /* 기본 마진/패딩 제거 및 높이 100% 설정 */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* 스크롤바 숨기기 (선택 사항) */
+            background-color: black; /* 배경색 유지 */
+        }
+        /* 게임 컨테이너도 높이를 100%로 설정 */
+        #game-container {
+            width: 100%;
+            height: 100%;
+            display: flex; /* Flexbox를 사용하여 캔버스 중앙 정렬 (Phaser 자동 중앙 정렬과 함께 사용) */
+            justify-content: center;
+            align-items: center;
+        }
+        /* 캔버스 자체 스타일 (Phaser가 관리하므로 최소한으로 유지) */
+        canvas {
+            display: block; /* 불필요한 공백 제거 */
+        }
     </style>
 </head>
 <body>
@@ -17,19 +35,27 @@
     <script>
         const config = {
             type: Phaser.AUTO,
-            width: 800,        // 게임 너비
-            height: 600,       // 게임 높이
-            parent: 'game-container',
-            // 게임에서 사용할 Scene 목록 정의
-            // 첫 번째 Scene인 StartScene부터 시작됩니다.
-            scene: [StartScene, ChooseClass /*, GameScene 등 추가 */ ],
-            // Phaser 레지스트리 플러그인 활성화 (전역 데이터 저장용)
-            // 보통 기본 활성화되어 있지만 명시적으로 포함하는 것이 좋습니다.
+            // width, height는 이제 '디자인 해상도' 또는 '기본 비율'을 의미합니다.
+            // Scale Manager가 실제 캔버스 크기를 조절합니다.
+            width: 800,
+            height: 600,
+            parent: 'game-container', // 캔버스를 넣을 부모 요소 ID
+            // Scale Manager 설정 추가
+            scale: {
+                mode: Phaser.Scale.FIT, // 게임 비율을 유지하면서 부모 요소에 맞게 크기 조절
+                parent: 'game-container', // 크기 조절 기준이 될 부모 요소
+                autoCenter: Phaser.Scale.CENTER_BOTH, // 부모 요소 내에서 게임 캔버스를 자동으로 중앙 정렬
+                // width/height를 '100%'로 설정하여 부모 요소 크기를 사용하도록 지시
+                width: '100%',
+                height: '100%'
+            },
+            scene: [StartScene, ChooseClass /*, GameScene 등 */ ],
             plugins: {
                 global: [
                     { key: 'registry', plugin: Phaser.Data.DataManager, start: true }
                 ]
             }
+            // physics, audio 등 다른 설정은 필요에 따라 추가
         };
 
         const game = new Phaser.Game(config);

@@ -10,7 +10,7 @@ export class ChooseCharacter extends Phaser.Scene {
     this.load.image('choose_character_wizard', 'assets/choose_character_wizard.png');
     this.load.image('choose_character_astronomer', 'assets/choose_character_astronomer.png');
     this.load.image('choose_character_shadow', 'assets/choose_character_shadow.png');
-    this.load.image('choose_character_selected', 'assets/choose_character_select.png');
+    this.load.image('choose_character_select', 'assets/choose_character_selected.png');
     this.load.image('choose_character_chosen', 'assets/choose_character_chosen.png');
     this.load.image('choose_character_selectbutton_select', 'assets/choose_character_selectbutton_select.png');
     this.load.image('choose_character_selectbutton_selected', 'assets/choose_character_selectbutton_selected.png');
